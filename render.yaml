@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: anime-box-store
+    runtime: node
+    plan: starter
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: anime-box-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: OTP_SECRET
+        generateValue: true
+      - key: W3SMS_API_KEY
+        sync: false
+      - key: W3SMS_SENDER_ID
+        sync: false
+databases:
+  - name: anime-box-db
+    plan: basic-256mb
